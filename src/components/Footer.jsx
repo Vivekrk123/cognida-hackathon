@@ -23,7 +23,7 @@ function Footer() {
             mb="30px"
             color='white'
           >
-            ECFASHION
+            ECOFASHION
             </Typography>
         </Box>
 

@@ -20,9 +20,7 @@ const Item = ({ item, width }) => {
   const {
     data: {
       attributes: {
-        formats: {
-          medium: { url },
-        },
+        url
       },
     },
   } = image;
@@ -38,7 +36,7 @@ const Item = ({ item, width }) => {
           alt={item.name}
           width="300px"
           height="400px"
-          src={`http://localhost:2000${url}`}
+          src={`http://localhost:1337${url}`}
           onClick={() => navigate(`/item/${item.id}`)}
           style={{ cursor: "pointer" }}
         />

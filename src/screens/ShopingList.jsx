@@ -7,46 +7,65 @@ import { Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../state";
+import axios from "axios";
+
 
 const ShoppingList = () => {
-  const dispatch = useDispatch();
   const [value, setValue] = useState("all");
+  const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
   const breakPoint = useMediaQuery("(min-width:600px)");
 
+
+  console.log("items",items);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-//   async function getItems() {
-//     const items = await fetch(
-//       "http://localhost:1337/api/items?populate=image",
-//       { method: "GET" }
-//     );
-//     const itemsJson = await items.json();
-//     dispatch(setItems(itemsJson.data));
-//   }
+  async function getItems() {
+    const items=await fetch(
+      "http://localhost:1337/api/items?populate=image",
+      {method:"GET"}
+    );
+    const itemsJson = await items.json();
+    dispatch(setItems(itemsJson.data));
 
-//   useEffect(() => {
-//     getItems();
-//   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }
+  useEffect(() => {
+    getItems();
+  }, []);
 
-  const shirts = items.filter(
+  // async function getItems() {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:1337/api/Item?populate=image"
+  //     );
+  //     dispatch(setItems(response.data.data));
+  //   } catch (error) {
+  //     console.error("Error fetching items:", error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getItems();
+  // }, []);
+
+  const shirtsItems = items.filter(
     (item) => item.attributes.category === "Shirts"
   );
-  const tshirts = items.filter(
+  const tShirtsItems = items.filter(
     (item) => item.attributes.category === "Tshirts"
   );
-  const jeans = items.filter(
+  const jeansItems = items.filter(
     (item) => item.attributes.category === "Jeans"
   );
-  const polos = items.filter(
+  const polosItems = items.filter(
     (item) => item.attributes.category === "Polos"
   );
-  const trousers = items.filter(
+  const trousersItems = items.filter(
     (item) => item.attributes.category === "Trousers"
   );
-  const joggers = items.filter(
+  const joggersItems = items.filter(
     (item) => item.attributes.category === "Joggers"
   );
 
@@ -70,12 +89,12 @@ const ShoppingList = () => {
         }}
       >
         <Tab label="ALL" value="all" />
-        <Tab label="SHIRTS" value="shirts" />
-        <Tab label="T-SHIRTS" value="tshirts" />
-        <Tab label="JEANS" value="jeans" />
-        <Tab label="POLOS" value="polos" />
-        <Tab label="TROUSERS" value="trousers" />
-        <Tab label="JOGGERS" value="joggers" />
+        <Tab label="Shirts" value="shirts" />
+        <Tab label="T-shirts" value="tShirts" />
+        <Tab label="Jeans" value="jeans" />
+        <Tab label="Polos" value="polos" />
+        <Tab label="Trousers" value="trousers" />
+        <Tab label="Joggers" value="joggers" />
       </Tabs>
       <Box
         margin="0 auto"
@@ -90,27 +109,27 @@ const ShoppingList = () => {
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
         {value === "shirts" &&
-          shirts.map((item) => (
+          shirtsItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
-        {value === "tshirts" &&
-          tshirts.map((item) => (
+        {value === "tShirts" &&
+          tShirtsItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
         {value === "jeans" &&
-          jeans.map((item) => (
-            <Item item={item} key={`${item.name}-${item.id}`} />
-          ))}
-        {value === "trousers" &&
-          trousers.map((item) => (
+          jeansItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
         {value === "polos" &&
-          polos.map((item) => (
+          polosItems.map((item) => (
+            <Item item={item} key={`${item.name}-${item.id}`} />
+          ))}
+        {value === "trousers" &&
+          trousersItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
         {value === "joggers" &&
-          joggers.map((item) => (
+          joggersItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
       </Box>
